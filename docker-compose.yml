@@ -6,6 +6,8 @@ services:
       - ./output:/app/output
       - ./dataset:/app/dataset
       - huggingface_cache:/root/.cache/huggingface
+      - torch_cache:/root/.cache/torch
 
 volumes:
   huggingface_cache:
+  torch_cache:
