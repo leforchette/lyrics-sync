@@ -1,0 +1,11 @@
+services:
+  lsync:
+    build: .
+    volumes:
+      - ./song:/app/song
+      - ./output:/app/output
+      - ./dataset:/app/dataset
+      - huggingface_cache:/root/.cache/huggingface
+
+volumes:
+  huggingface_cache:

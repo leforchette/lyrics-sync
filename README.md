@@ -29,6 +29,54 @@ Please refer to [demo.ipynb](./demo.ipynb).
 
 If you want to visualize `.lrc` for evaluation, you can use [Lrc Player](https://github.com/mikezzb/lrc-player).
 
+### CLI Usage
+
+#### Direct Python
+
+```shell
+python run.py <audio_path> <lyrics_path> [--lang LANG]
+```
+
+**Arguments:**
+- `audio_path` - Path to audio file (mp3, wav, etc.)
+- `lyrics_path` - Path to lyrics text file
+- `--lang` - Language code: `en-US` (default), `it-IT`, `zh-CN`
+
+**Examples:**
+
+```shell
+# English song (default)
+python run.py song/song.wav song/lyrics.txt
+
+# Italian song
+python run.py song/canzone.mp3 song/testo.txt --lang it-IT
+```
+
+#### Docker
+
+Build and run without installing dependencies locally:
+
+```shell
+# Build the image
+docker-compose build
+
+# Run with your song
+docker-compose run --rm lsync "song/audio.mp3" "song/lyrics.txt" --lang en-US
+```
+
+Output files are saved to `./output/`:
+- `output/lrc/` - Synchronized `.lrc` files
+- `output/vocals/` - Extracted vocals
+- `output/words/` - Word timing data (CSV)
+
+### Supported Languages
+
+| Code    | Language | Model                                                 |
+| ------- | -------- | ----------------------------------------------------- |
+| `en-US` | English  | `facebook/wav2vec2-large-960h-lv60-self`              |
+| `it-IT` | Italian  | `jonatasgrosman/wav2vec2-large-xlsr-53-italian`       |
+| `zh-CN` | Chinese  | `jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn` |
+
 ### Experiments
 
 If you want to fine-tune a Wav2Vec2 model for better accuracy in singing domain, please refer to the experiments section below.

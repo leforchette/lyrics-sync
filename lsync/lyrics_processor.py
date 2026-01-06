@@ -22,6 +22,8 @@ class LyricsProcessor():
             return self.__process_en(text)
         elif self.lang == 'zh-CN':
             return self.__process_cn(text)
+        elif self.lang == 'it-IT':
+            return self.__process_it(text)
         elif self.lang.startswith("en") and self.lang.endswith("-base"):
             return self.__process_en(text, is_upper=False)
 
@@ -33,12 +35,22 @@ class LyricsProcessor():
             text = text.lower()
         text = text.replace(' ', '|')
         text = text.replace('\n', '|')
-        text = text.replace('_', '\'')
-        text = text.replace('’', '\'')
+        text = text.replace('_', "'")
+        text = text.replace('\u2019', "'")
         return text
 
     def __process_cn(self, text):
         # preprocessing
+        return text
+
+    def __process_it(self, text: str):
+        # Italian preprocessing - similar to English but lowercase for XLSR models
+        text = text.lower()
+        text = text.replace(' ', '|')
+        text = text.replace('\n', '|')
+        text = text.replace('_', "'")
+        text = text.replace('\u2019', "'")
+        # Handle Italian accented characters (keep them as-is for the model)
         return text
 
     def get_words_from_path(self, text, path, frame_duration):
@@ -56,7 +68,7 @@ class LyricsProcessor():
                 )
             )
             i1 = i2
-        if self.lang.startswith("en"):
+        if self.lang.startswith("en") or self.lang == 'it-IT':
             return self.__merge_en(segments, frame_duration)
         elif self.lang == 'zh-CN':
             return [Word(s.label, s.start * frame_duration, s.end * frame_duration) for s in segments]
