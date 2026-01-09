@@ -5,6 +5,9 @@ services:
       - ./song:/app/song
       - ./output:/app/output
       - ./dataset:/app/dataset
+      - ./output/vocals:/app/output/vocals
+      - ./output/words:/app/output/words
+      - ./output/lrc:/app/output/lrc
       - huggingface_cache:/root/.cache/huggingface
       - torch_cache:/root/.cache/torch
 
